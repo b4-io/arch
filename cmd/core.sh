@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 PACKAGES=(sudo git base-devel wget cmake mesa openssh)
@@ -13,20 +13,20 @@ for pkg in "${PACKAGES[@]}"; do
 		echo "[!] Missing: $pkg - installing..."
 		sudo pacman -S --noconfirm --needed "$pkg"
 	else
-		echo "[*] $pkg is already installed."
+		echo "✅ $pkg is already installed."
 	fi
 done
 
 if ! command -v yay &> /dev/null; then
 	TMP=$(mktemp -d)
-	trap "echo '[*] Cleaning up...'; rm -rf $TMP" EXIT
+	trap "echo '✅ Cleaning up...'; rm -rf $TMP" EXIT
 	cd "$TMP"
 	git clone https://aur.archlinux.org/yay.git
 	cd yay
 	makepkg -si
 	cd "$TMP"
 else
-	echo "[*] yay is already installed."
+	echo "✅ yay is already installed."
 fi
 
-echo "[*] Done"
+echo "✅ Done"

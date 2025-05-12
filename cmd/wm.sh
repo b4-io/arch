@@ -1,9 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
+echo "📦 Installing hyprland, hyprlock, uwsm, ghostty and waybar via pacman..."
+sudo pacman -Syu --needed --noconfirm hyprland hyprlock uwsm ghostty waybar
 
-echo "📦 Installing hyprland, hyprlock, uwsm, and ghostty via pacman..."
-sudo pacman -Syu --needed --noconfirm hyprland hyprlock uwsm ghostty
+echo "📦 Installing fonts..."
+sudo pacman -Syu --needed --noconfirm ttf-font-awesome ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols
 
 echo "📦 Installing walker-bin via yay..."
 yay -S --needed --noconfirm walker-bin
