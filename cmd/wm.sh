@@ -7,8 +7,9 @@ sudo pacman -Syu --needed --noconfirm hyprland hyprlock uwsm ghostty waybar duns
 echo "📦 Installing pipewire wireplumber pipewire-audio pipewire-pulse"
 sudo pacman -Syu --needed --noconfirm pipewire wireplumber pipewire-audio pipewire-pulse
 
-echo "📦 Installing qt5-wayland qt6-wayland xdg-desktop-portal-hyprland adw-gtk-theme"
-sudo pacman -Syu --needed --noconfirm qt5-wayland qt6-wayland xdg-desktop-portal-hyprland adw-gtk-theme
+echo "📦 Installing qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xdg-desktop-portal-gtk adw-gtk-theme"
+sudo pacman -Syu --needed --noconfirm qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xdg-desktop-portal-gtk adw-gtk-theme
+systemctl --user restart xdg-desktop-portal xdg-desktop-portal-hyprland
 
 echo "📦 Installing nemo file manager"
 sudo pacman -Syu --needed --noconfirm nemo
