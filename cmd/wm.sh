@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
-echo "📦 Installing hyprland, hyprlock, uwsm, ghostty, waybar, dunst, qt5-wayland, qt6-wayland xdg-desktop-portal-hyprland via pacman..."
+echo "📦 Installing hyprland, hyprlock, uwsm, ghostty, waybar, dunst via pacman..."
 sudo pacman -Syu --needed --noconfirm hyprland hyprlock uwsm ghostty waybar dunst
 
 echo "📦 Installing pipewire wireplumber pipewire-audio pipewire-pulse"
 sudo pacman -Syu --needed --noconfirm pipewire wireplumber pipewire-audio pipewire-pulse
 
-echo "📦 Installing qt5-wayland qt6-wayland xdg-desktop-portal-hyprland"
-sudo pacman -Syu --needed --noconfirm qt5-wayland qt6-wayland xdg-desktop-portal-hyprland
+echo "📦 Installing qt5-wayland qt6-wayland xdg-desktop-portal-hyprland adw-gtk-theme"
+sudo pacman -Syu --needed --noconfirm qt5-wayland qt6-wayland xdg-desktop-portal-hyprland adw-gtk-theme
+
+echo "📦 Installing nemo file manager"
+sudo pacman -Syu --needed --noconfirm nemo
 
 echo "📦 Installing fonts..."
 sudo pacman -Syu --needed --noconfirm ttf-font-awesome ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols
