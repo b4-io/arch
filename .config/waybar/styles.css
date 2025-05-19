@@ -10,12 +10,12 @@
 #waybar {
     background: transparent;
     color: #ff6f61;
-    margin: 2px 2px;
+    margin: 0px 0px 0px 2px;
 }
 
 #workspaces {
     border-radius: 5px;
-    margin: 5px;
+    margin: 0px 0px 0px 2px;
     background: #101010;
     margin-left: 1rem;
 }
@@ -51,7 +51,7 @@
 #custom-lock {
     background-color: #101010;
     padding: 0.5rem 1rem;
-    margin: 5px 0;
+    margin: 0px 0px 0px 2px;
     border-radius: 0px 5px 5px 0px;
 }
 
