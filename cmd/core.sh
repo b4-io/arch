@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-PACKAGES=(sudo git base-devel wget cmake mesa openssh less vi)
+PACKAGES=(sudo git base-devel wget cmake mesa openssh less vi htop unzip lsof)
 
 echo "[+] Updating system..."
 sudo pacman -Syu --noconfirm
