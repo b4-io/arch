@@ -10,6 +10,9 @@ sudo systemctl start docker
 
 sudo usermod -aG docker $USER
 
+echo "📦 Installing fnm"
+curl -fsSL https://fnm.vercel.app/install | bash
+
 echo "📦 Installing bun"
 curl -fsSL https://bun.sh/install | bash
 
@@ -18,3 +21,6 @@ go install github.com/air-verse/air@latest
 
 echo "📦 Installing goose"
 go install github.com/pressly/goose/v3/cmd/goose@latest
+
+echo "Installing github-cli"
+sudo pacman -Syu --needed --noconfirm github-cli

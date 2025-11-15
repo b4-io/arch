@@ -18,7 +18,7 @@ echo "📦 Installing fonts..."
 sudo pacman -Syu --needed --noconfirm ttf-font-awesome ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols
 
 echo "📦 Installing walker-bin via yay..."
-yay -S --needed --noconfirm walker-bin
+yay -S --needed --noconfirm walker-bin elephant elephant-desktopapplications
 
 echo "📦 Installing hyprpolkitagent via yay..."
 yay -S --needed --noconfirm hyprpolkitagent
