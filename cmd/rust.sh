@@ -31,3 +31,6 @@ yay -S --needed --noconfirm mold
 
 echo "📦 Installing cargo-watch"
 cargo install cargo-watch
+
+echo "Installing wasm-pack"
+curl https://drager.github.io/wasm-pack/installer/init.sh -sSf | sh
