@@ -24,3 +24,9 @@ go install github.com/pressly/goose/v3/cmd/goose@latest
 
 echo "Installing github-cli"
 sudo pacman -Syu --needed --noconfirm github-cli
+
+echo "Installing uv"
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+echo "Installing protobuf"
+sudo pacman -S --noconfirm protobuf
