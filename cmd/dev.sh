@@ -1,14 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-echo "📦 Installing docker, postgresql via pacman..."
-sudo pacman -Syu --needed --noconfirm docker postgresql
-
-echo "📦 Setting app docker service"
-sudo systemctl enable docker
-sudo systemctl start docker
-
-sudo usermod -aG docker $USER
+echo "📦 Installing postgresql via pacman..."
+sudo pacman -Syu --needed --noconfirm postgresql
 
 echo "📦 Installing fnm"
 curl -fsSL https://fnm.vercel.app/install | bash
@@ -31,5 +25,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 echo "Installing protobuf"
 sudo pacman -S --noconfirm protobuf buf
 
-echo "Installing github cli"
-sudo pacman -S --noconfirm github-cli
+echo "Installing tmux"
+sudo pacman -S --noconfirm tmux
+
+echo "Installing oh-my-tmux"
+curl -fsSL "https://github.com/gpakosz/.tmux/raw/refs/heads/master/install.sh#$(date +%s)" | bash
