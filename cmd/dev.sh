@@ -29,4 +29,7 @@ echo "Installing uv"
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 echo "Installing protobuf"
-sudo pacman -S --noconfirm protobuf
+sudo pacman -S --noconfirm protobuf buf
+
+echo "Installing github cli"
+sudo pacman -S --noconfirm github-cli
