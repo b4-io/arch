@@ -1,0 +1,44 @@
+# Backups (from link.sh conflict handling)
+*.bak
+*.bak.*
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Editor swap/temp
+*.swp
+*.swo
+*~
+
+# Secrets and credentials (NEVER COMMIT THESE)
+.env
+.env.*
+*.crt
+*.key
+*.pem
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+.ssh/
+authorized_keys
+known_hosts
+
+# Opencode generated artifacts (upstream gitignores these)
+.config/opencode/bun.lock
+.config/opencode/package.json
+.config/opencode/package-lock.json
+.config/opencode/node_modules/
+.config/opencode/playwright/storage-state.json
+.config/opencode/.gitignore
+
+# Logs
+*.log
+logs/
+
+# Scratch dirs
+/tmp_*
+
+# Sisyphus planning artifacts (keep plans, ignore scratch)
+.sisyphus/scratch/
