@@ -33,7 +33,8 @@ check_sleep_targets() {
     local targets=(sleep.target suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target)
     for t in "${targets[@]}"; do
         local state
-        state="$(systemctl is-enabled "$t" 2>/dev/null || echo unknown)"
+        state="$(systemctl is-enabled "$t" 2>/dev/null || true)"
+        state="${state:-unknown}"
         if [[ "$state" == "masked" ]]; then
             ok "sleep-targets" "$t is masked"
         else
