@@ -1,0 +1,205 @@
+@define-color window_bg_color   #12121a;
+@define-color window_bg_lifted  #1e1e2a;
+@define-color accent_bg_color   #d4a24c;
+@define-color accent_strong     #e8b85a;
+@define-color theme_fg_color    #e8dcc4;
+@define-color theme_fg_dim      #a88c5f;
+@define-color error_bg_color    #ff5722;
+@define-color error_fg_color    #e8dcc4;
+
+* {
+    all: unset;
+}
+
+popover {
+    background: @window_bg_lifted;
+    border: 1px solid alpha(@accent_bg_color, 0.35);
+    border-radius: 3px;
+    padding: 6px;
+}
+
+.normal-icons {
+    -gtk-icon-size: 16px;
+}
+
+.large-icons {
+    -gtk-icon-size: 28px;
+}
+
+scrollbar {
+    opacity: 0;
+}
+
+.box-wrapper {
+    background: alpha(@window_bg_color, 0.97);
+    border: 1px solid alpha(@accent_bg_color, 0.35);
+    border-radius: 3px;
+    padding: 14px;
+    box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.55),
+        0 4px 8px rgba(0, 0, 0, 0.35);
+}
+
+.preview-box,
+.elephant-hint,
+.placeholder {
+    color: @theme_fg_dim;
+}
+
+.search-container {
+    border-radius: 2px;
+    border-bottom: 1px solid alpha(@accent_bg_color, 0.4);
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+}
+
+.input {
+    caret-color: @accent_strong;
+    background: transparent;
+    padding: 8px 4px;
+    color: @theme_fg_color;
+    font-size: 14px;
+}
+
+.input placeholder {
+    color: @theme_fg_dim;
+    opacity: 0.6;
+}
+
+.input selection {
+    background: alpha(@accent_bg_color, 0.30);
+}
+
+.list {
+    color: @theme_fg_color;
+}
+
+.item-box {
+    border-radius: 2px;
+    padding: 8px 10px;
+    border-left: 2px solid transparent;
+    transition: background 120ms ease, border-color 120ms ease;
+}
+
+child:selected .item-box,
+row:selected .item-box {
+    background: alpha(@accent_bg_color, 0.14);
+    border-left: 2px solid @accent_strong;
+}
+
+.item-text-box .item-text {
+    color: @theme_fg_color;
+}
+
+.item-subtext {
+    font-size: 11px;
+    color: @theme_fg_dim;
+    opacity: 0.85;
+}
+
+.providerlist .item-subtext {
+    font-size: unset;
+    opacity: 0.75;
+}
+
+.item-image-text {
+    font-size: 22px;
+    color: @theme_fg_dim;
+}
+
+.item-quick-activation {
+    background: alpha(@accent_bg_color, 0.20);
+    color: @accent_strong;
+    border-radius: 2px;
+    padding: 4px 8px;
+    font-size: 11px;
+}
+
+.preview {
+    border: 1px solid alpha(@accent_bg_color, 0.25);
+    border-radius: 2px;
+    color: @theme_fg_color;
+    padding: 6px;
+}
+
+.calc .item-text {
+    font-size: 22px;
+    color: @accent_strong;
+}
+
+.symbols .item-image {
+    font-size: 22px;
+}
+
+.todo.done .item-text-box {
+    opacity: 0.30;
+}
+
+.todo.urgent {
+    color: @error_bg_color;
+    font-size: 22px;
+}
+
+.todo.active {
+    font-weight: bold;
+}
+
+.bluetooth.disconnected {
+    opacity: 0.5;
+}
+
+.preview .large-icons {
+    -gtk-icon-size: 56px;
+}
+
+.keybinds {
+    padding-top: 8px;
+    margin-top: 8px;
+    border-top: 1px solid alpha(@accent_bg_color, 0.18);
+    font-size: 11px;
+    color: @theme_fg_dim;
+}
+
+.global-keybinds {
+}
+
+.item-keybinds {
+}
+
+.keybind-button {
+    opacity: 0.55;
+}
+
+.keybind-button:hover {
+    opacity: 0.85;
+    color: @accent_strong;
+}
+
+.keybind-bind {
+    text-transform: lowercase;
+    opacity: 0.45;
+}
+
+.keybind-label {
+    padding: 1px 4px;
+    border-radius: 2px;
+    border: 1px solid alpha(@theme_fg_color, 0.45);
+    color: @theme_fg_color;
+}
+
+.error {
+    padding: 8px;
+    background: alpha(@error_bg_color, 0.85);
+    color: @error_fg_color;
+    border-radius: 2px;
+}
+
+:not(.calc).current {
+    font-style: italic;
+    color: @accent_strong;
+}
+
+.preview-content.archlinuxpkgs,
+.preview-content.dnfpackages {
+    font-family: monospace;
+}
