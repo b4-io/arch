@@ -4,60 +4,83 @@
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
   "modules-right": [
+    "custom/tailscale",
     "pulseaudio",
     "battery",
     "network",
     "cpu",
     "memory",
     "tray",
-    "custom/lock",
+    "custom/power"
   ],
   "hyprland/workspaces": {
-    "format": "{name}: {icon}",
+    "format": "{icon}",
     "format-icons": {
       "active": "",
-      "default": "",
-    },
+      "default": ""
+    }
   },
   "tray": {
-    "icon-size": 21,
-    "spacing": 10,
+    "icon-size": 20,
+    "spacing": 8
   },
   "clock": {
     "timezone": "America/Montevideo",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format": "{:%d - %H:%M}",
+    "tooltip": false,
+    "format": "{:%a %d %b  %H:%M}",
+    "on-click": "~/.config/hypr/scripts/calendar-popup.sh"
+  },
+  "custom/tailscale": {
+    "exec": "~/.config/hypr/scripts/tailscale-status.sh",
+    "return-type": "json",
+    "interval": 10,
+    "on-click": "trayscale"
   },
   "network": {
     "format-wifi": "󰤢 ",
-    "format-ethernet": " ",
+    "format-ethernet": "󰈀 ",
     "format-disconnected": "󰤠 ",
     "interval": 5,
-    "tooltip": false,
+    "tooltip-format": "{ifname} via {gwaddr}",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+    "tooltip-format-disconnected": "Disconnected"
   },
   "cpu": {
     "interval": 1,
     "format": "  {icon0}{icon1}{icon2}{icon3} {usage:>2}%",
     "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+    "tooltip-format": "CPU: {usage}% (load {load})"
   },
   "memory": {
     "interval": 30,
     "format": "  {used:0.1f}G/{total:0.1f}G",
+    "tooltip-format": "{used:0.1f}GiB / {total:0.1f}GiB ({percentage}%)"
   },
   "pulseaudio": {
     "format": "{icon} {volume}%",
     "format-muted": "",
     "format-icons": {
-      "default": ["", "", " "],
+      "default": ["", "", " "]
     },
-    "on-click": "pavucontrol",
+    "tooltip-format": "Volume: {volume}% - {desc}",
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-click-right": "pavucontrol",
+    "scroll-step": 5,
+    "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
   },
-  "custom/lock": {
+  "battery": {
+    "states": { "warning": 30, "critical": 15 },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "{timeTo} ({power:0.1f}W)"
+  },
+  "custom/power": {
+    "format": "",
     "tooltip": false,
-    "on-click": "sh -c '(sleep 0.5s; hyprlock)' & disown",
-    "format": "",
-  },
-  "later": {
-    "format": "<span class='icon'>{icon}</span> <span class='text'>{text}</span>",
-  },
+    "on-click": "~/.config/hypr/scripts/power-menu.sh"
+  }
 }
