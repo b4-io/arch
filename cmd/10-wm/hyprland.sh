@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
 echo "📦 Installing hyprland, hyprlock, uwsm, ghostty, waybar, dunst via pacman..."
-sudo pacman -Syu --needed --noconfirm hyprland hyprlock uwsm ghostty waybar dunst
+sudo pacman -Syu --needed --noconfirm hyprland aquamarine hypridle hyprpaper hyprlock uwsm ghostty waybar dunst
 
 echo "📦 Installing pipewire wireplumber pipewire-audio pipewire-pulse"
 sudo pacman -Syu --needed --noconfirm pipewire wireplumber pipewire-audio pipewire-pulse
@@ -14,8 +14,11 @@ systemctl --user restart xdg-desktop-portal xdg-desktop-portal-hyprland
 echo "📦 Installing nemo file manager"
 sudo pacman -Syu --needed --noconfirm nemo
 
+echo "📦 Installing brightnessctl playerctl..."
+sudo pacman -Syu --needed --noconfirm brightnessctl playerctl
+
 echo "📦 Installing fonts..."
-sudo pacman -Syu --needed --noconfirm ttf-font-awesome ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols
+sudo pacman -Syu --needed --noconfirm woff2-font-awesome ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols
 
 echo "📦 Installing walker-bin via yay..."
 yay -S --needed --noconfirm walker-bin elephant elephant-desktopapplications
