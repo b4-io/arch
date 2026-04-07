@@ -15,7 +15,9 @@ sudo pacman -S --needed --noconfirm tmux
 
 if ! test -d "$HOME/.tmux"; then
     echo "📦 Installing oh-my-tmux..."
-    curl -fsSL "https://github.com/gpakosz/.tmux/raw/refs/heads/master/install.sh#$(date +%s)" | bash
+    git clone https://github.com/gpakosz/.tmux.git "$HOME/.tmux"
+    ln -sf "$HOME/.tmux/.tmux.conf" "$HOME/.tmux.conf"
+    [ -f "$HOME/.tmux.conf.local" ] || cp "$HOME/.tmux/.tmux.conf.local" "$HOME/.tmux.conf.local"
 else
     echo "✅ oh-my-tmux already present"
 fi

@@ -109,8 +109,7 @@ update_oh_my_zsh() {
         echo "oh-my-zsh not found at ~/.oh-my-zsh, skipping"
         return 1
     fi
-    # omz is a zsh function; call via zsh
-    zsh -i -c 'omz update --unattended' || return 1
+    "$HOME/.oh-my-zsh/tools/upgrade.sh" || return 1
 }
 
 restart_tailscaled() {
