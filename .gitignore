@@ -42,3 +42,7 @@ logs/
 
 # Sisyphus planning artifacts (keep plans, ignore scratch)
 .sisyphus/scratch/
+
+# Python bytecode / cache
+__pycache__/
+*.pyc
