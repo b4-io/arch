@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-PACKAGES=(sudo git base-devel wget cmake mesa openssh less vi htop unzip lsof)
+PACKAGES=(
+	sudo git base-devel wget cmake mesa openssh less vi htop unzip lsof
+	nano noto-fonts-cjk woff2-font-awesome
+	amd-ucode linux-firmware-amdgpu linux-firmware-radeon linux-firmware-realtek linux-firmware-other
+	gnome-keyring reflector ninja shellcheck lm_sensors clang
+)
 
 echo "[+] Updating system..."
 sudo pacman -Syu --noconfirm
@@ -19,7 +24,7 @@ done
 
 if ! command -v yay &> /dev/null; then
 	TMP=$(mktemp -d)
-	trap "echo '✅ Cleaning up...'; rm -rf $TMP" EXIT
+	trap 'echo "✅ Cleaning up..."; rm -rf "$TMP"' EXIT
 	cd "$TMP"
 	git clone https://aur.archlinux.org/yay.git
 	cd yay
