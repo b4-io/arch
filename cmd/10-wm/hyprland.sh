@@ -7,6 +7,9 @@ sudo pacman -Syu --needed --noconfirm hyprland aquamarine hypridle hyprpaper hyp
 echo "📦 Installing pipewire wireplumber pipewire-audio pipewire-pulse"
 sudo pacman -Syu --needed --noconfirm pipewire wireplumber pipewire-audio pipewire-pulse
 
+echo "📦 Installing pavucontrol (audio output device GUI)"
+sudo pacman -Syu --needed --noconfirm pavucontrol
+
 echo "📦 Installing qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xdg-desktop-portal-gtk adw-gtk-theme"
 sudo pacman -Syu --needed --noconfirm qt5-wayland qt6-wayland xdg-desktop-portal-hyprland xdg-desktop-portal-gtk adw-gtk-theme
 systemctl --user restart xdg-desktop-portal xdg-desktop-portal-hyprland

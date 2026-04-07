@@ -4,6 +4,9 @@ set -euo pipefail
 echo "📦 Installing tailscale..."
 sudo pacman -S --needed --noconfirm tailscale
 
+echo "🖥️  Installing trayscale (GTK4 tray GUI, AUR)..."
+yay -S --needed --noconfirm trayscale
+
 echo "🔧 Enabling tailscaled.service..."
 sudo systemctl enable --now tailscaled
 
