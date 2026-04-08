@@ -1,8 +1,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
-    "opencode-anthropic-oauth@latest",
-    "oh-my-openagent@latest"
+    "./node_modules/opencode-anthropic-oauth",
+    "./node_modules/oh-my-openagent"
   ],
   "mcp": {}
 }
