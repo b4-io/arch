@@ -4,7 +4,6 @@
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["clock"],
   "modules-right": [
-    "custom/tailscale",
     "pulseaudio",
     "battery",
     "network",
@@ -29,12 +28,6 @@
     "tooltip": false,
     "format": "{:%a %d %b  %H:%M}",
     "on-click": "~/.config/hypr/scripts/calendar-popup.sh"
-  },
-  "custom/tailscale": {
-    "exec": "~/.config/hypr/scripts/tailscale-status.sh",
-    "return-type": "json",
-    "interval": 10,
-    "on-click": "trayscale"
   },
   "network": {
     "format-wifi": "󰤢 ",

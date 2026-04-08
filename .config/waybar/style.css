@@ -59,7 +59,6 @@
     border-radius: 2px;
 }
 
-#custom-tailscale,
 #pulseaudio,
 #battery,
 #network,
@@ -74,36 +73,6 @@
     color: #e8dcc4;
     font-size: 14px;
     transition: color 150ms ease, background 150ms ease;
-}
-
-#custom-tailscale {
-    color: #6b5f4a;
-    font-size: 16px;
-    padding: 4px 12px;
-}
-
-#custom-tailscale.connected {
-    color: #e8b85a;
-    text-shadow: 0 0 6px rgba(232, 184, 90, 0.35);
-}
-
-#custom-tailscale.disconnected {
-    color: #6b5f4a;
-}
-
-#custom-tailscale.needs-login {
-    color: #ff6b3d;
-    text-shadow: 0 0 6px rgba(255, 107, 61, 0.5);
-}
-
-#custom-tailscale.error,
-#custom-tailscale.unknown {
-    color: #a88c5f;
-}
-
-#custom-tailscale:hover {
-    background: rgba(232, 184, 90, 0.08);
-    border-radius: 2px;
 }
 
 #pulseaudio {
