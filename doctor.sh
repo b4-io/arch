@@ -191,6 +191,160 @@ check_kernel_cmdline() {
     fi
 }
 
+check_lts_kernel() {
+    section "LTS Fallback Kernel"
+    if pacman -Qi linux-lts &>/dev/null; then
+        local ver
+        ver="$(pacman -Q linux-lts | awk '{print $2}')"
+        ok "lts-kernel-pkg" "linux-lts $ver installed"
+    else
+        warn "lts-kernel-pkg" "linux-lts not installed (run cmd/50-reliability/lts-kernel.sh)"
+        return
+    fi
+    if [[ -f /boot/vmlinuz-linux-lts && -f /boot/initramfs-linux-lts.img ]]; then
+        ok "lts-kernel-img" "/boot/vmlinuz-linux-lts and initramfs-linux-lts.img present"
+    else
+        fail "lts-kernel-img" "linux-lts package installed but kernel/initramfs missing in /boot"
+    fi
+    if [[ -f /boot/grub/grub.cfg ]] && grep -q 'vmlinuz-linux-lts' /boot/grub/grub.cfg 2>/dev/null; then
+        ok "lts-kernel-grub" "linux-lts entry present in grub.cfg"
+    else
+        warn "lts-kernel-grub" "linux-lts not in grub.cfg (run: sudo grub-mkconfig -o /boot/grub/grub.cfg)"
+    fi
+}
+
+check_panic_sysctls() {
+    section "Panic-on-Lockup Sysctls"
+    local key expected actual
+    declare -A expected_values=(
+        [kernel.panic]=10
+        [kernel.panic_on_oops]=1
+        [kernel.hardlockup_panic]=1
+        [kernel.softlockup_panic]=1
+        [vm.panic_on_oom]=0
+    )
+    for key in "${!expected_values[@]}"; do
+        expected="${expected_values[$key]}"
+        if actual="$(sysctl -n "$key" 2>/dev/null)"; then
+            if [[ "$actual" == "$expected" ]]; then
+                ok "sysctl-${key}" "$key=$actual"
+            else
+                warn "sysctl-${key}" "$key=$actual (expected $expected - run cmd/50-reliability/sysctl-stability.sh)"
+            fi
+        else
+            hint "sysctl-${key}" "$key not available on this kernel build"
+        fi
+    done
+}
+
+check_amdgpu_options() {
+    section "amdgpu Module Options"
+    local conf=/etc/modprobe.d/99-amdgpu-stability.conf
+    if [[ ! -f "$conf" ]]; then
+        warn "amdgpu-conf" "$conf missing (run cmd/50-reliability/amdgpu-tuning.sh)"
+        return
+    fi
+    if grep -Eq '^options amdgpu .*gpu_recovery=1( |$)' "$conf"; then
+        ok "amdgpu-recovery-cfg" "gpu_recovery=1 set in $conf"
+    else
+        warn "amdgpu-recovery-cfg" "gpu_recovery=1 not set in $conf"
+    fi
+    if grep -Eq '^options amdgpu .*lockup_timeout=5000,5000,5000,5000( |$)' "$conf"; then
+        ok "amdgpu-timeout-cfg" "lockup_timeout=5000,5000,5000,5000 set in $conf"
+    else
+        warn "amdgpu-timeout-cfg" "lockup_timeout=5000,5000,5000,5000 not set in $conf"
+    fi
+    local live_recovery
+    live_recovery="$(cat /sys/module/amdgpu/parameters/gpu_recovery 2>/dev/null || echo unknown)"
+    if [[ "$live_recovery" == "1" ]]; then
+        ok "amdgpu-recovery-live" "gpu_recovery=1 active in running kernel"
+    elif [[ "$live_recovery" == "unknown" ]]; then
+        hint "amdgpu-recovery-live" "amdgpu module not loaded or sysfs unreadable"
+    else
+        warn "amdgpu-recovery-live" "gpu_recovery=$live_recovery in running kernel - reboot to apply $conf"
+    fi
+    local live_timeout
+    live_timeout="$(cat /sys/module/amdgpu/parameters/lockup_timeout 2>/dev/null || echo unknown)"
+    if [[ "$live_timeout" == "5000,5000,5000,5000" ]]; then
+        ok "amdgpu-timeout-live" "lockup_timeout=5000,5000,5000,5000 active in running kernel"
+    elif [[ "$live_timeout" == "unknown" ]]; then
+        hint "amdgpu-timeout-live" "amdgpu lockup_timeout sysfs unreadable"
+    else
+        warn "amdgpu-timeout-live" "lockup_timeout=\"$live_timeout\" in running kernel - reboot to apply $conf"
+    fi
+}
+
+check_amdgpu_runtime_symptoms() {
+    section "amdgpu Runtime Symptoms (this boot)"
+    local hits
+    hits="$(journalctl -b 0 -k --no-pager -q 2>/dev/null | grep -ciE 'ring .*timeout|gpu reset (begin|end)|drm_sched.*timeout|flip_done timed out|gpu recovery|amdgpu.*deadlock' || true)"
+    if [[ "$hits" -eq 0 ]]; then
+        ok "amdgpu-symptoms" "No GPU hang/recovery symptoms this boot"
+    else
+        warn "amdgpu-symptoms" "$hits GPU hang/recovery-related lines this boot (inspect: journalctl -b 0 -k)"
+    fi
+}
+
+check_pstore() {
+    section "Persistent Crash Storage (pstore)"
+    if mountpoint -q /sys/fs/pstore 2>/dev/null; then
+        ok "pstore-mount" "/sys/fs/pstore mounted"
+    else
+        warn "pstore-mount" "/sys/fs/pstore not mounted - kernel may lack ACPI ERST/EFI pstore backend"
+    fi
+    if systemctl is-enabled --quiet systemd-pstore.service 2>/dev/null; then
+        ok "pstore-service" "systemd-pstore.service enabled"
+    else
+        warn "pstore-service" "systemd-pstore.service not enabled (run cmd/50-reliability/persistent-crash.sh)"
+    fi
+    if [[ -d /var/lib/systemd/pstore ]]; then
+        local count
+        count="$(sudo find /var/lib/systemd/pstore -type f 2>/dev/null | wc -l)"
+        if [[ "$count" -gt 0 ]]; then
+            warn "pstore-archive" "$count archived crash dump(s) in /var/lib/systemd/pstore - inspect them"
+        else
+            ok "pstore-archive" "/var/lib/systemd/pstore exists, no archived dumps"
+        fi
+    fi
+}
+
+check_journal_config() {
+    section "Journald Persistence"
+    if [[ -d /var/log/journal ]]; then
+        local size
+        size="$(sudo du -sh /var/log/journal 2>/dev/null | awk '{print $1}')"
+        ok "journal-dir" "/var/log/journal present (${size:-unknown})"
+    else
+        warn "journal-dir" "/var/log/journal missing - logs are volatile (run cmd/50-reliability/persistent-crash.sh)"
+    fi
+    local conf=/etc/systemd/journald.conf.d/10-persistent.conf
+    if [[ ! -f "$conf" ]]; then
+        warn "journal-conf" "$conf missing (run cmd/50-reliability/persistent-crash.sh)"
+        return
+    fi
+    ok "journal-conf" "$conf present"
+    local key expected
+    declare -A journal_expected=(
+        [Storage]=persistent
+        [SystemMaxUse]=2G
+        [SystemMaxFileSize]=200M
+        [SystemKeepFree]=2G
+        [Compress]=yes
+        [Seal]=yes
+        [ForwardToSyslog]=no
+    )
+    for key in "${!journal_expected[@]}"; do
+        expected="${journal_expected[$key]}"
+        if grep -Eq "^${key}=${expected}$" "$conf"; then
+            ok "journal-${key}" "${key}=${expected}"
+        else
+            local actual
+            actual="$(grep -E "^${key}=" "$conf" | head -1 || echo "unset")"
+            warn "journal-${key}" "expected ${key}=${expected}, got ${actual}"
+        fi
+    done
+}
+
 check_btrfs() {
     section "Btrfs Status"
     local fstype
@@ -316,6 +470,12 @@ check_cpu_temp
 check_oomd
 check_watchdog
 check_kernel_cmdline
+check_lts_kernel
+check_panic_sysctls
+check_amdgpu_options
+check_amdgpu_runtime_symptoms
+check_pstore
+check_journal_config
 check_btrfs
 check_failed_services
 check_fstrim
