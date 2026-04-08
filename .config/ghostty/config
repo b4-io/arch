@@ -1,43 +1,57 @@
-# This is the configuration file for Ghostty.
-#
-# This template file has been automatically created at the following
-# path since Ghostty couldn't find any existing config files on your system:
-#
-#   /home/bruno/.config/ghostty/config
-#
-# The template does not set any default options, since Ghostty ships
-# with sensible defaults for all options. Users should only need to set
-# options that they want to change from the default.
-#
-# Run `ghostty +show-config --default --docs` to view a list of
-# all available config options and their default values.
-#
-# Additionally, each config option is also explained in detail
-# on Ghostty's website, at https://ghostty.org/docs/config.
+# Ghostty configuration
+# Reference: https://ghostty.org/docs/config
+# Run `ghostty +show-config --default --docs` to view every option.
 
-# Config syntax crash course
-# ==========================
-# # The config file consists of simple key-value pairs,
-# # separated by equals signs.
-# font-family = Iosevka
-# window-padding-x = 2
-#
-# # Spacing around the equals sign does not matter.
-# # All of these are identical:
-# key=value
-# key= value
-# key =value
-# key = value
-#
-# # Any line beginning with a # is a comment. It's not possible to put
-# # a comment after a config option, since it would be interpreted as a
-# # part of the value. For example, this will have a value of "#123abc":
-# background = #123abc
-#
-# # Empty values are used to reset config keys to default.
-# key =
-#
-# # Some config options have unique syntaxes for their value,
-# # which is explained in the docs for that config option.
-# # Just for example:
-# resize-overlay-duration = 4s 200ms
+# ===========================================================
+# Theme: Forge - matches the system warm-dark palette
+# ===========================================================
+# Aligned with waybar, hyprland, dunst, and hyprlock.
+# Cream foreground (#e8dcc4) on near-black (#12121a),
+# amber/gold accents (#d4a24c, #e8b85a) and orange highlights
+# (#ff6b3d, #ff5722) lifted from the active workspace icon,
+# the clock, and the active window border.
+
+# Font - matches waybar / hyprlock / dunst chrome
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 14
+
+# Window
+background-opacity = 0.94
+background-blur = 20
+window-padding-x = 12
+window-padding-y = 8
+window-decoration = false
+window-theme = dark
+
+# Base colors
+background = #12121a
+foreground = #e8dcc4
+
+# Cursor - orange accent, matches active workspace highlight
+cursor-color = #ff6b3d
+cursor-text = #12121a
+cursor-style = block
+
+# Selection - matches inactive border tone
+selection-background = #2a2a38
+selection-foreground = #e8dcc4
+
+# ANSI palette - warm forge tones
+# 0-7: normal
+palette = 0=#1a1a24
+palette = 1=#ff5722
+palette = 2=#a8b260
+palette = 3=#d4a24c
+palette = 4=#7a8db5
+palette = 5=#c97a8c
+palette = 6=#7ab8a8
+palette = 7=#e8dcc4
+# 8-15: bright
+palette = 8=#3a3a48
+palette = 9=#ff6b3d
+palette = 10=#c4cc7a
+palette = 11=#e8b85a
+palette = 12=#9aabc8
+palette = 13=#e0959e
+palette = 14=#9ccfb5
+palette = 15=#fff5e0
